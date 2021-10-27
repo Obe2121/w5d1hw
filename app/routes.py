@@ -6,16 +6,20 @@ from .forms import LoginForm
 def index():
     return render_template('index.html.j2')
 
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
+        #do Login stuff
         email = request.form.get("email").lower()
-        password =request.form.get("password")
-        if email in app.config.get('REGISTERED_USERS') and password == app.config.get('registered_users')(email).get('password'):
-            return f" Login sucess Welcome {app.config.get('registered_users').get(email).get('name')}"
-    error_string = "Invalid Email and password combination"
-    return render_template('login.html.j2', error = error_string, form=form)
+        password = request.form.get("password")
+        if email in app.config.get("REGISTERED_USERS") and \
+            password == app.config.get("REGISTERED_USERS").get(email).get('password'):
+            return f"Login success Welcome {app.config.get('REGISTERED_USERS').get(email).get('name')}"
+        error_string = "Invalid Email password combo"
+        return render_template('login.html.j2', error = error_string, form=form)
+
+    return render_template('login.html.j2', form=form)
 
 @app.route('/pokemon', methods = ['GET', 'POST'])
 def pokemon():
