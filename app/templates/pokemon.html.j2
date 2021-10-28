@@ -1,3 +1,4 @@
+
 {% extends 'base.html.j2' %}
 
 {% block title %}
@@ -6,10 +7,24 @@ Pokemon Results
 
 {% block content %}
  <h1>Pokemon Stats</h1>
-    <form method="POST" action="/pokemon">
-    <div class="mb-3">
-        <label for="pokemon_name" class="form-label">Pokemon Name</label>
-        <input type="text" name="pokemon_name" class="form-control" id="pokemon_name">
+
+<form action ="{{url_for('pokemon')}}" method ="POST">
+<small style="color:red;">{{error}}</small>
+    {{ form.hidden_tag() }}
+    <div>
+        {{form.name.label(class="form-label")}}
+        {{form.name(class="form-control")}}
+        {% for error in form.name.errors %}
+            <small style="color:red;">{{error}}</small>
+        {% endfor %}
+        <br>
+        </div>
+    <div>
+        {{form.submit(class="btn btn-primary form-control")}}
+    </div>
+    </form>
+
+
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
